@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px 0 20px 20px;
+}
+
+.slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide img {
+  width: 100%;
+}
+
+.gallery {
+  width: 100%;
+  overflow: hidden;
+  user-select: none;
+}
+
+.gallery-draggable {
+  cursor: grabbing;
+}
+
+.gallery-line {
+  overflow: hidden;
+}
+
+.gallery-slide {
+  min-height: 1px;
+  float: left;
+  transform: translateZ(0);
+}
