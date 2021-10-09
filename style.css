@@ -3,8 +3,8 @@
 }
 
 body {
-  margin: 0;
-  padding: 20px 0 20px 20px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .slide {
@@ -18,9 +18,11 @@ body {
 }
 
 .gallery {
-  width: 100%;
+  position: relative;
   overflow: hidden;
   user-select: none;
+  padding: 0 3rem;
+  margin: 20px 10px 0 10px;
 }
 
 .gallery-draggable {
@@ -35,4 +37,72 @@ body {
   min-height: 1px;
   float: left;
   transform: translateZ(0);
+}
+
+.gallery-dots {
+  display: flex;
+  justify-content: center;
+}
+
+.gallery-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0.4rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  outline: none;
+  padding: 0;
+}
+
+.gallery-dot:hover,
+.gallery-dot-active {
+  background-color: #888;
+}
+
+.gallery-arrows {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0 0;
+}
+
+.gallery-arrow_left,
+.gallery-arrow_right {
+  position: absolute;
+  width: 2rem;
+  height: 3rem;
+  border: none;
+  outline: none;
+  text-indent: -1234em;
+  top: 50%;
+  margin-top: -4rem;
+  background: url("./img/arrow.svg") no-repeat center;
+  background-size: contain;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.gallery-arrow-disabled {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.gallery-arrow_left {
+  left: 0;
+  transform: rotate(180deg);
+}
+
+.gallery-arrow_right {
+  right: 0;
+}
+
+@media screen and (max-width: 700px) {
+  .gallery {
+    padding: 0;
+  }
+  .gallery-arrows {
+    display: none;
+  }
 }
