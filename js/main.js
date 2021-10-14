@@ -34,9 +34,13 @@ class Gallery {
     this.changeCurrentSlide = this.changeCurrentSlide.bind(this);
     this.changeActiveDotClass = this.changeActiveDotClass.bind(this);
     this.addDisabledClass = this.addDisabledClass.bind(this);
+    this.autoplay = this.autoplay.bind(this);
+    this.autoplayStop = this.autoplayStop.bind(this);
+    this.infinitySlider = this.infinitySlider.bind(this);
     this.manageHTML();
     this.setParameters();
     this.setEvents();
+    this.autoplay();
   }
 
   manageHTML() {
@@ -63,13 +67,12 @@ class Gallery {
       })
     );
     for (let i = 0; i < this.size; i++) {
-      console.log(i);
-      console.log(this.currentSlide);
       this.dots.insertAdjacentHTML('beforeend', `<button class="${galleryDotClassName} ${i === this.currentSlide ? galleryDotActiveClassName : ''}"></button>`)
     } 
     this.dot = this.dots.querySelectorAll(`.${galleryDotClassName}`);
     this.arrowLeft = this.container.querySelector(`.${galleryArrowLeftClassName}`);
     this.arrowRight = this.container.querySelector(`.${galleryArrowRightClassName}`);
+    this.slidesImg = this.container.querySelectorAll('.slide img');
   }
 
 
@@ -100,6 +103,12 @@ class Gallery {
     this.dots.addEventListener('click', this.clickDots);
     this.arrowLeft.addEventListener('click', this.moveToLeft);
     this.arrowRight.addEventListener('click', this.moveToRight);
+    this.pointAndRemove(this.arrowLeft);
+    this.pointAndRemove(this.arrowRight);
+    this.pointAndRemove(this.dots);
+    this.slidesImg.forEach(elem => {
+      this.pointAndRemove(elem);
+    });
   }
 
   destroyEvents() {
@@ -184,6 +193,9 @@ class Gallery {
 
   moveToLeft() {
     if(this.currentSlide <= 0) {
+      this.currentSlide = this.size;
+      this.infinitySlider(this.currentSlide-1, -4170);
+      this.currentSlide--;
       return;
     }
     this.currentSlide--;
@@ -192,10 +204,22 @@ class Gallery {
 
   moveToRight() {
     if(this.currentSlide >= this.size - 1) {
+      this.currentSlide = -1; 
+      this.infinitySlider(this.currentSlide+1, 0);
+      this.currentSlide++;
       return;
     }
     this.currentSlide++;
     this.changeCurrentSlide();
+  }
+
+  infinitySlider(arg, position) {
+    this.line.style.transform = `translate3d(${position}px, 0, 0)`;
+    this.line.style.transition = `all 0.001s ease 0s`;
+    for (let i = 0; i < this.dot.length; i++) {
+      this.dot[i].classList.remove(galleryDotActiveClassName);
+    }
+    this.dot[arg].classList.add(galleryDotActiveClassName);
   }
 
   changeCurrentSlide(countSwipes) {
@@ -203,7 +227,7 @@ class Gallery {
     this.setStylePosition();
     this.setStyleTransition(countSwipes);
     this.changeActiveDotClass();
-    this.addDisabledClass();
+    // this.addDisabledClass();
   }
 
   addDisabledClass() {
@@ -224,6 +248,21 @@ class Gallery {
       this.dot[i].classList.remove(galleryDotActiveClassName);
     }
     this.dot[this.currentSlide].classList.add(galleryDotActiveClassName);
+  }
+
+  autoplay(time = 2000) {
+    this.interval = setInterval(this.moveToRight, time);
+  }
+
+  autoplayStop() {
+		clearInterval(this.interval);
+	}
+
+  pointAndRemove(elem) {
+    elem.addEventListener('mouseover', this.autoplayStop);
+    elem.addEventListener('mouseout', ()=> {
+      this.autoplay();
+    });
   }
 }
 
