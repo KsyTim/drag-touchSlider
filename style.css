@@ -1,42 +1,70 @@
 * {
   box-sizing: border-box;
+  margin: 0;
 }
 
-body {
-  max-width: 900px;
-  margin: 0 auto;
+#gallery {
+  border: 1px solid black;
+  margin: 20px auto;
+  position: relative;
+}
+
+.slider {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .slide {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: all ease 1s;
+}
+
+.hidden {
+  overflow: hidden;
 }
 
 .slide img {
   width: 100%;
+  height: 100%;
+  opacity: 1;
 }
 
-.gallery {
-  position: relative;
-  overflow: hidden;
-  user-select: none;
-  padding: 0 3rem;
-  margin: 20px 10px 0 10px;
+.transparent {
+  opacity: 0;
 }
 
-.gallery-draggable {
-  cursor: grabbing;
+.gallery-arrows {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0 0;
 }
 
-.gallery-line {
-  overflow: hidden;
+.gallery-arrow_left,
+.gallery-arrow_right {
+  position: absolute;
+  width: 2rem;
+  height: 3rem;
+  border: none;
+  outline: none;
+  text-indent: -1234em;
+  top: 50%;
+  transform: translate(50%, -55%);
+  background: url("./img/arrow.svg") no-repeat center;
+  background-size: contain;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
-.gallery-slide {
-  min-height: 1px;
-  float: left;
-  transform: translateZ(0);
+.gallery-arrow_left {
+  left: -5%;
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.gallery-arrow_right {
+  right: -5%;
 }
 
 .gallery-dots {
@@ -62,47 +90,6 @@ body {
   background-color: #888;
 }
 
-.gallery-arrows {
-  display: flex;
-  justify-content: center;
-  padding: 1rem 0 0;
-}
-
-.gallery-arrow_left,
-.gallery-arrow_right {
-  position: absolute;
-  width: 2rem;
-  height: 3rem;
-  border: none;
-  outline: none;
-  text-indent: -1234em;
-  top: 50%;
-  margin-top: -4rem;
-  background: url("./img/arrow.svg") no-repeat center;
-  background-size: contain;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-/* .gallery-arrow-disabled {
-  opacity: 0.2;
-  pointer-events: none;
-} */
-
-.gallery-arrow_left {
-  left: 0;
-  transform: rotate(180deg);
-}
-
-.gallery-arrow_right {
-  right: 0;
-}
-
-@media screen and (max-width: 700px) {
-  .gallery {
-    padding: 0;
-  }
-  .gallery-arrows {
-    display: none;
-  }
+.draggable {
+  cursor: grabbing;
 }
